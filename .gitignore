@@ -286,6 +286,6 @@ docker/.env
 ../logs/
 
 # Docker ELK Stack Configs
-kibana/
-logstash/
-elasticsearch/
+#kibana/
+#logstash/
+#elasticsearch/
