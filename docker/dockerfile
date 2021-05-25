@@ -1,2 +1,8 @@
 FROM python:3.9-slim-buster
 LABEL maintainer="Tandras_"
+
+WORKDIR /usr/src/app
+
+COPY requirements.txt ./
+
+RUN pip install --no-cache-dir -r requirements.txt
