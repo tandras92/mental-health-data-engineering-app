@@ -217,7 +217,7 @@ celerybeat.pid
 
 # Environments
 # .env
-.env/
+docker/.env/
 .venv/
 env/
 venv
@@ -282,5 +282,10 @@ pip-selfcheck.json
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,pycharm,venv
-.env
+docker/.env
 ../logs/
+
+# Docker ELK Stack Configs
+kibana/
+logstash/
+elasticsearch/
