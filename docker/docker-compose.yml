@@ -1,5 +1,7 @@
 version: '3.8'
 services:
+  mental-health-data-engineering-app:
+    build: .
   metabase:
     image: metabase/metabase
     ports:
