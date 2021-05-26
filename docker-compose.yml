@@ -1,0 +1,58 @@
+version: '3.8'
+services:
+    metabase:
+      image: metabase/metabase
+      ports:
+          - "3000:3000"
+
+    postgres:
+      image: postgres:13.3
+      environment:
+          - POSTGRES_USER=airflow
+          - POSTGRES_PASSWORD=airflow
+          - POSTGRES_DB=airflow
+      logging:
+        options:
+            max-size: 10m
+            max-file: "3"
+
+    nifi:
+      image: apache/nifi:latest
+      ports:
+          - "9300:9300"
+
+    scheduler:
+      image: apache/airflow
+      command: scheduler
+      deploy:
+      restart: on-failure
+      depends_on:
+          - postgres
+      env_file:
+          - .env
+      volumes:
+        - ./airflow/dags:/opt/airflow/dags
+        - ./airflow/logs:/opt/airflow/logs
+
+    webserver:
+        image: apache/airflow
+        entrypoint: ./scripts/entrypoint.sh
+        deploy:
+        restart: on-failure
+        depends_on:
+            - postgres
+            - scheduler
+        env_file:
+            - .env
+        volumes:
+          - ./airflow/dags:/opt/airflow/dags
+          - ./airflow/logs:/opt/airflow/logs
+          - ./scripts:/opt/airflow/scripts
+        ports:
+          - "8081:8081"
+        command: webserver
+        healthcheck:
+          test: [ "CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]" ]
+          interval: 30s
+          timeout: 30s
+          retries: 3
