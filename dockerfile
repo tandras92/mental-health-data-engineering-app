@@ -1,9 +1,11 @@
 FROM python:3.9-slim-buster
 LABEL maintainer="Tandras_"
 
-WORKDIR /usr/src/app
+RUN mkdir /usr/src/app/
 
-COPY requirements.txt ./
+COPY . /usr/src/app/
+
+WORKDIR /usr/src/app
 
 RUN python -m pip install --upgrade pip
 
